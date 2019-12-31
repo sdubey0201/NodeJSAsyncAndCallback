@@ -27,15 +27,33 @@ const request = require('request');
 
 // });
 
+
+ // Note: comment the older version of this fucntion 
+// const forecast = (latitude, longitude, callback) => {
+//     const url = 'https://api.darksky.net/forecast/b2509fa5da82db180ae664fff18eb50d/' + latitude + ',' + longitude;
+//     request({ url: url, json: true }, (error, response) => {
+//         if (error) {
+//             callback('Unable to connect with forecast service', undefined);
+//         } else if (response.body.error) {
+//             callback('Unable to find the forecast', undefined);
+//         } else {
+//             const data = 'currently tramprature is ' + response.body.currently.temperature;
+//             callback(undefined, data)
+//         }
+//     });
+// }
+
+//Note: addding use of property shorthand and object destructuring of ES6 
+
 const forecast = (latitude, longitude, callback) => {
     const url = 'https://api.darksky.net/forecast/b2509fa5da82db180ae664fff18eb50d/' + latitude + ',' + longitude;
-    request({ url: url, json: true }, (error, response) => {
+    request({ url, json: true }, (error, {body}) => {
         if (error) {
             callback('Unable to connect with forecast service', undefined);
-        } else if (response.body.error) {
+        } else if (body.error) {
             callback('Unable to find the forecast', undefined);
         } else {
-            const data = 'currently tramprature is ' + response.body.currently.temperature;
+            const data = 'currently tramprature is ' +body.currently.temperature;
             callback(undefined, data)
         }
     });
